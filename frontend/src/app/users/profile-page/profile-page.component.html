@@ -1,0 +1,102 @@
+ <div class="min-h-screen  py-8">
+      <div class="w-full mx-auto sm:px-6 ">
+        <!-- Profile Header -->
+        <div class="bg-white w-full  p-8 mb-6">
+          <div class="flex flex-col items-center text-center">
+            <!-- Avatar -->
+            <!-- <div class="relative mb-6">
+              <img 
+                src="/placeholder.svg?height=120&width=120"
+                [alt]="user.name"
+                class="w-30 h-30 rounded-full object-cover border-4 border-white shadow-lg"
+              />
+              <div class="absolute -bottom-2 -right-2 bg-green-500 w-6 h-6 rounded-full border-4 border-white"></div>
+            </div> -->
+            
+            <!-- User Info -->
+            <div class="mb-6">
+              <h1 class="text-3xl font-bold text-gray-900 mb-2">{{ user.username }}</h1>
+              <!-- <p class="text-lg text-gray-600">User ID: #{{ user.id }}</p> -->
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="flex gap-3">
+              <button class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+                Edit Profile
+              </button>
+             
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Virtual Money Card -->
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-lg font-semibold text-gray-900 mb-1">Virtual Money</h2>
+                <p class="text-3xl font-bold text-green-600">{{ user.virtualMoney }}</p>
+              </div>
+              <div class="bg-green-100 rounded-full p-3 ">
+                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                </svg>
+               <!-- <p class="px-3 flex justify-center items-center">€</p> -->
+              </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-gray-200">
+              <button class="text-blue-600 hover:text-blue-800 font-medium text-sm">
+                View Transaction History
+              </button>
+            </div>
+          </div>
+
+          <!-- Experience Points Card -->
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+            <div class="flex items-center justify-between">
+              <div>
+                <h2 class="text-lg font-semibold text-gray-900 mb-1">Experience Points</h2>
+                <p class="text-3xl font-bold text-purple-600">{{ user.experiencePoints | number }}</p>
+              </div>
+              <div class="bg-purple-100 p-3 rounded-full">
+                <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                </svg>
+              </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-gray-200">
+              <div class="flex justify-between text-sm">
+                <span class="text-gray-600">Next Level</span>
+                <span class="font-medium text-gray-900">{{ getNextLevelXP() - user.experiencePoints }} XP</span>
+              </div>
+              <div class="mt-2 bg-gray-200 rounded-full h-2">
+                <div 
+                  class="bg-purple-600 h-2 rounded-full transition-all duration-300"
+                  [style.width.%]="getProgressPercentage()"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Level Information -->
+        <div class="mt-6 bg-white rounded-2xl shadow-sm border border-gray-200 p-6">
+          <h2 class="text-lg font-semibold text-gray-900 mb-4">Level Information</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
+            <div class="bg-gray-50 rounded-lg p-4">
+              <div class="text-2xl font-bold text-gray-900">{{ getCurrentLevel() }}</div>
+              <div class="text-sm text-gray-600">Current Level</div>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4">
+              <div class="text-2xl font-bold text-gray-900">{{ getNextLevelXP() }}</div>
+              <div class="text-sm text-gray-600">Next Level XP</div>
+            </div>
+            <div class="bg-gray-50 rounded-lg p-4">
+              <div class="text-2xl font-bold text-gray-900">{{ getRank() }}</div>
+              <div class="text-sm text-gray-600">Global Rank</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

@@ -1,0 +1,60 @@
+<div class="flex  h-[calc(100vh-64px)] flex-col justify-center  lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <p class="mt-10 text-center text-4xl font-bold tracking-tight text-[var(--text-700)]">Log in to your account</p>
+    </div>
+  
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      <form [formGroup]="loginForm" (ngSubmit)="onSignIn()" class="space-y-6">
+        <div>
+          <label for="email" class="block text-sm font-medium text-[var(--text-700)]">Email address</label>
+          <div class="mt-2">
+            <input 
+              type="email" 
+              id="email" 
+              formControlName="email" 
+              autocomplete="email"
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              [ngClass]="{'outline-red-500': loginForm.get('email')?.invalid && loginForm.get('email')?.touched}"
+            >
+          </div>
+          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="text-red-500 text-xs mt-1">
+            <span *ngIf="loginForm.get('email')?.errors?.['required']">Email is required</span>
+            <span *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email</span>
+          </div>
+        </div>
+  
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="password" class="block text-sm font-medium text-[var(--text-700)]">Password</label>
+            <div class="text-sm">
+              <a (click)="forgotPassword()" class="font-semibold text-indigo-600 hover:text-indigo-500 cursor-pointer">Forgot password?</a>
+            </div>
+          </div>
+          <div class="mt-2">
+            <input 
+              type="password" 
+              id="password" 
+              formControlName="password" 
+              autocomplete="current-password"
+              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              [ngClass]="{'outline-red-500': loginForm.get('password')?.invalid && loginForm.get('password')?.touched}"
+            >
+          </div>
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-red-500 text-xs mt-1">
+            Password is required
+          </div>
+        </div>
+  
+        <div class="text-center">
+          <button 
+            type="submit" 
+            [disabled]="loading"
+            class="w-full rounded-xl  bg-gradient-to-r from-[var(--primary-600)] to-[var(--secondary-600)] hover:from-[var(--primary-700)] hover:to-[var(--secondary-700)] text-white font-medium py-3 px-4 shadow-md "
+     >
+            {{ loading ? 'Logging in...' : 'Log in' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

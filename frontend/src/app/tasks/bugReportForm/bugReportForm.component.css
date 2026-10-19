@@ -1,0 +1,128 @@
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* Quill editor custom styling */
+:host ::ng-deep .ql-editor {
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+:host ::ng-deep .ql-toolbar {
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+:host ::ng-deep .ql-container {
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+  background-color: white;
+}
+
+:host ::ng-deep .ql-editor.ql-blank::before {
+  color: #9ca3af;
+  font-style: italic;
+}
+
+/* Toast notifications */
+.toast-enter {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+/* Custom scrollbar for file list */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: #cdcdcd;
+  border-radius: 3px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Button hover effects */
+button.focus-visible {
+  outline: 2px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
+}
+
+/* Recording indicator pulse animation */
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+/* Prevent iframe border on Firefox */
+iframe {
+  border: none;
+}
+
+/* Improve styling for mobile view */
+@media (max-width: 768px) {
+  .p-4 {
+    padding: 1rem;
+  }
+}
+
+/* Make sure Quill editor buttons have proper spacing */
+:host ::ng-deep .ql-formats {
+  margin-right: 10px !important;
+}
+
+:host ::ng-deep .ql-formats button {
+  margin: 0 2px;
+}
+
+/* Improve styling for the file list scrollbar on Firefox */
+.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: #cdcdcd #f1f1f1;
+}
+
+/* Upload progress bar styles */
+.upload-progress {
+  margin: 20px 0;
+  padding: 10px;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+}
+
+.upload-progress mat-progress-bar {
+  margin-bottom: 8px;
+}
+
+.upload-progress span {
+  display: block;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+
+.form-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+}
+
+.form-actions button {
+  min-width: 120px;
+}

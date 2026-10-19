@@ -1,0 +1,141 @@
+<div class="p-8 max-w-7xl mx-auto font-sans">
+  <!-- Header Section -->
+  <div class="mb-8 text-center">
+    <p class="text-4xl font-bold text-[var(--primary-700)] mb-2 ">
+      Tasks
+    </p>
+    <p class=" text-[var(--secondary-700)] max-w-[600px] mx-auto">
+      Choose a task to do
+    </p>
+  </div>
+
+  <!-- Action Bar -->
+  <div class="flex flex-wrap gap-4 mb-8 justify-between items-center">
+    <button
+      class="flex items-center gap-2 bg-gradient-to-r from-[var(--primary-600)] to-[var(--secondary-600)] hover:from-[var(--primary-700)] hover:to-[var(--secondary-700)] text-white font-medium py-3 px-4 shadow-md border-none py-3 px-6 rounded-xl font-semibold text-sm cursor-pointer transition-all duration-300 shadow-md shadow-indigo-200/20 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-300/30 active:translate-y-0"
+      (click)="navigateToCreate()"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+        <path fill-rule="evenodd" d="M12 3.75a.75.75 0 01.75.75v6.75h6.75a.75.75 0 010 1.5h-6.75v6.75a.75.75 0 01-1.5 0v-6.75H4.5a.75.75 0 010-1.5h6.75V4.5a.75.75 0 01.75-.75z" clip-rule="evenodd" />
+      </svg>
+      Create Task
+    </button>
+
+    <div class="flex-1 max-w-lg min-w-[250px]">
+      <div class="relative flex gap-2 items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="absolute left-4 w-5 h-5 text-slate-400 pointer-events-none">
+          <path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 0 13.5 6.75 6.75 0 0 0 0-13.5ZM2.25 10.5a8.25 8.25 0 1 1 14.59 5.28l4.69 4.69a.75.75 0 1 1-1.06 1.06l-4.69-4.69A8.25 8.25 0 0 1 2.25 10.5Z" clip-rule="evenodd" />
+        </svg>
+        <input
+          class="flex-1 py-3 pl-12 pr-4 border border-slate-200 rounded-xl text-sm bg-white text-slate-800 transition-all duration-300 shadow-sm focus:outline-none focus:border-indigo-500 focus:shadow-md focus:shadow-indigo-100/10 placeholder:text-slate-400"
+          placeholder="Search tasks..."
+        />
+        <div class="p-[2px] bg-gradient-to-r from-[var(--secondary-600)] to-[var(--primary-600)]">
+          <button class="bg-white text-[var(--primary-600)] rounded-md px-4 py-3 w-full h-full">
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tasks Section -->
+  <div class="relative min-h-[300px]">
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="flex flex-col items-center justify-center py-16">
+      <div class="w-12 h-12 border-3 border-slate-200 border-t-indigo-500 rounded-full animate-spin mb-4"></div>
+      <p class="text-slate-500 text-sm">Loading your tasks...</p>
+    </div>
+
+    <!-- Tasks Grid -->
+    <div *ngIf="!isLoading" class="relative" [class.empty]="tasks.length === 0">
+      <div *ngIf="tasks.length > 0; else noTasks" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 perspective-1000">
+        <div *ngFor="let task of tasks; let i = index" class="bg-white rounded-2xl overflow-hidden shadow-md transition-all duration-300 h-full flex flex-col animate-[fadeIn_0.3s_ease-out_forwards] hover:-translate-y-1 hover:shadow-lg" [style.animation-delay]="i * 0.1 + 's'">
+          <div class="relative h-[150px] overflow-hidden">
+            <div class="absolute top-3 right-3 py-1 px-3 rounded-full text-xs font-semibold uppercase z-10 shadow-sm text-white" [ngClass]="{
+              'bg-emerald-500 text-white': task.status === 'ACCEPTED',
+              'bg-amber-500 text-white': task.status === 'PENDING',
+              'bg-red-500 text-white': task.status === 'DECLINED',
+              'bg-purple-500 text-white': task.status === 'DEACTIVATED',
+            }">
+              {{ task.status }}
+            </div>
+
+          <img 
+  [src]="task.image ? 'data:image/png;base64,' + task.image : 'https://static.vecteezy.com/system/resources/thumbnails/007/470/513/small_2x/important-business-checklist-planning-for-shopping-reminder-or-project-priority-task-list-3d-render-photo.jpg'" 
+  alt="Preview" 
+  class="w-full h-full object-cover" 
+/>
+ </div>
+          <div class="p-6 flex flex-col flex-1">
+            <h3 class="text-lg font-semibold text-slate-800 mb-3 leading-relaxed">
+              {{ task.title }}
+            </h3>
+            <div class="mb-6 flex-1">
+              <div class="flex items-center gap-2 mb-2 text-slate-500 text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 flex-shrink-0">
+                  <path fill-rule="evenodd" d="M3 6a3 3 0 013-3h2.25a3 3 0 013 3v2.25a3 3 0 01-3 3H6a3 3 0 01-3-3V6zm9.75 0a3 3 0 013-3H18a3 3 0 013 3v2.25a3 3 0 01-3 3h-2.25a3 3 0 01-3-3V6zM3 15.75a3 3 0 013-3h2.25a3 3 0 013 3V18a3 3 0 01-3 3H6a3 3 0 01-3-3v-2.25zm9.75 0a3 3 0 013-3H18a3 3 0 013 3V18a3 3 0 01-3 3h-2.25a3 3 0 01-3-3v-2.25z" clip-rule="evenodd" />
+                </svg>
+                <span>
+                  Difficulty:
+                  <span [ngClass]="{
+                    'text-red-500 font-semibold': task.difficulty === 'HIGH',
+                    'text-amber-500 font-semibold': task.difficulty === 'MEDIUM',
+                    'text-emerald-500 font-semibold': task.difficulty === 'LOW'
+                  }">
+                    {{ task.difficulty }}
+                  </span>
+                </span>
+              </div>
+              <p class="mt-3 text-sm text-slate-500 leading-relaxed line-clamp-2 overflow-hidden text-ellipsis">
+                {{ task.description }}
+              </p>
+            </div>
+            <div class="flex gap-2 w-full">
+              <!-- View Details Button -->
+              <div class="flex-1 p-[2px] bg-gradient-to-r from-[var(--secondary-600)] to-[var(--primary-600)]">
+                <button class="bg-white text-[var(--primary-600)] rounded-md px-4 py-3 w-full h-full" (click)="navigateToReportPage(task)">
+                  View Details
+                </button>
+              </div>
+              <!-- Admin/Creator Actions -->
+              <div *ngIf="role === 'admin' || creatorId === task.creator?.id" class="flex gap-2">
+                <!-- Update Button -->
+                <div class="p-[2px] bg-gradient-to-r from-[var(--secondary-600)] to-[var(--primary-600)]">
+                  <button class="bg-white text-[var(--primary-600)] rounded-md px-4 py-3 w-full h-full" (click)="navigateToUpdate(task.id!.toString())">
+                    Update
+                  </button>
+                </div>
+                <!-- Deactivate Button -->
+                <div class="p-[2px] bg-gradient-to-r from-[var(--secondary-600)] to-[var(--primary-600)]">
+                  <button class="bg-white text-[var(--primary-600)] rounded-md px-4 py-3 w-full h-full" (click)="archive(task.id!)">
+                    Deactivate
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- No Tasks Template -->
+      <ng-template #noTasks>
+        <div class="flex flex-col items-center justify-center py-16 px-8 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-300">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-16 h-16 text-slate-400 mb-6">
+            <path fill-rule="evenodd" d="M7.502 6h7.128A3.375 3.375 0 0118 9.375v9.375a3 3 0 003-3V6.108c0-1.505-1.125-2.811-2.664-2.94a48.972 48.972 0 00-.673-.05A3 3 0 0015 1.5h-1.5a3 3 0 00-2.663 1.618c-.225.015-.45.032-.673.05C8.662 3.295 7.554 4.542 7.502 6zM13.5 3A1.5 1.5 0 0012 4.5h4.5A1.5 1.5 0 0015 3h-1.5z" clip-rule="evenodd" />
+            <path fill-rule="evenodd" d="M3 9.375C3 8.339 3.84 7.5 4.875 7.5h9.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-9.75A1.875 1.875 0 013 20.625V9.375zM6 12a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V12zm2.25 0a.75.75 0 01.75-.75h3.75a.75.75 0 010 1.5H9a.75.75 0 01-.75-.75zM6 15a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V15zm2.25 0a.75.75 0 01.75-.75h3.75a.75.75 0 010 1.5H9a.75.75 0 01-.75-.75zM6 18a.75.75 0 01.75-.75h.008a.75.75 0 01.75.75v.008a.75.75 0 01-.75.75H6.75a.75.75 0 01-.75-.75V18zm2.25 0a.75.75 0 01.75-.75h3.75a.75.75 0 010 1.5H9a.75.75 0 01-.75-.75z" clip-rule="evenodd" />
+          </svg>
+          <h3 class="text-2xl font-semibold text-slate-800 mb-3">
+            No tasks available
+          </h3>
+          <p class="text-slate-500 max-w-md mx-auto mb-8">
+            You don't have any tasks yet. Create your first task to get started.
+          </p>
+          <button class="py-3 px-6 bg-gradient-to-r from-indigo-600 to-indigo-500 text-white border-none rounded-xl text-sm font-semibold cursor-pointer transition-all duration-300 shadow-md shadow-indigo-200/20 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-300/30" (click)="navigateToCreate()">
+            Create Your First Task
+          </button>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>

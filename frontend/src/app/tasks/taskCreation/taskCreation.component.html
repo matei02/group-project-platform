@@ -1,0 +1,207 @@
+<div class="min-h-screen flex justify-center items-start f font-sans">
+  <div
+    class="w-full  bg-white  overflow-hidden mb-8 animate-[fadeIn_0.5s_ease-out_forwards] flex flex-col items-center">
+    <div class="w-full bg-[var(--primary-600)] text-white text-center p-6 md:p-8">
+      <h1>Create New Task</h1>
+      <p class="opacity-80">Fill in the details to create a new task</p>
+    </div>
+
+     <button type="button"
+              class="mt-2 px-4 py-2 bg-[#4f46e5] text-white rounded hover:bg-[#3c35b5] transition duration-200 ease-in-out cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+              (click)="triggerFileInput(fileInput)">
+              <span class="flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+                Upload files
+              </span>
+            </button>
+            <input type="file" hidden #fileInput (change)="handleManualFileUpload($event)"
+              accept="image/*,video/*">
+
+          <img *ngIf="previewUrl" [src]="previewUrl" alt="Preview" style="max-width: 300px; border: 1px solid #ccc;" />
+
+            <div class="mt-4" *ngIf="uploadedFiles.length > 0">
+              <ul class="border border-black-600 text-sm text-gray-600 space-y-2 max-h-[200px] overflow-y-auto pr-1 p-0">
+                <li *ngFor="let file of uploadedFiles; let i = index"
+                  class="flex items-center justify-between p-2 bg-gray-50 rounded border border-gray-200 hover:bg-gray-100 transition-colors">
+                  <div class="flex items-center overflow-hidden">
+                    <span class="mr-2 flex-shrink-0">
+                      <svg *ngIf="file.type.startsWith('image/')" xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <svg *ngIf="file.type.startsWith('video/')" xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                    </span>
+                    <span class="truncate">{{ file.name }}</span>
+                    <span class="ml-2 text-xs text-gray-500">({{ (file.size / 1024 / 1024).toFixed(2) }} MB)</span>
+                  </div>
+                  <button (click)="removeFile(i)"
+                    class="p-1 rounded-full hover:bg-red-100 text-red-600 transition-colors flex-shrink-0 ml-2"
+                    title="Remove file">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                </li>
+              </ul>
+      </div>
+
+
+    <form #taskForm="ngForm" name="task_creation_form" class="task-form">
+      <!-- Title Input -->
+      <div class="form-group">
+        <label for="titleInput" class="text-[var(--primary-600)] font-semibold">Task Title</label>
+        <div class="input-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="input-icon">
+            <path fill-rule="evenodd"
+              d="M11.097 1.515a.75.75 0 01.589.882L10.666 7.5h4.47l1.079-5.397a.75.75 0 111.47.294L16.665 7.5h3.585a.75.75 0 010 1.5h-3.885l-1.2 6h3.585a.75.75 0 010 1.5h-3.885l-1.08 5.397a.75.75 0 11-1.47-.294l1.02-5.103h-4.47l-1.08 5.397a.75.75 0 01-1.47-.294l1.02-5.103H3.75a.75.75 0 010-1.5h3.885l1.2-6H5.25a.75.75 0 010-1.5h3.885l1.08-5.397a.75.75 0 01.882-.588zM10.365 9l-1.2 6h4.47l1.2-6h-4.47z"
+              clip-rule="evenodd" />
+          </svg>
+          <input required type="text" [(ngModel)]="title" name="title" class="form-input" #titleInput="ngModel"
+            id="titleInput" placeholder="Enter task title" />
+        </div>
+        <div *ngIf="titleInput.invalid && (titleInput.dirty || titleInput.touched)" class="error-message">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="error-icon">
+            <path fill-rule="evenodd"
+              d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
+              clip-rule="evenodd" />
+          </svg>
+          Title is required
+        </div>
+      </div>
+
+      <!-- Budget Slider -->
+      <div class="flex flex-col gap-2 mb-6 w-full">
+        <label for="budgetSlider" class="text-sm font-semibold text-[var(--primary-600)] mb-1">Budget</label>
+        <div class="flex justify-center items-center gap-4 w-full mb-3">
+          <!-- Number Input -->
+          <input [(ngModel)]="budget" type="number"
+            class="w-32 px-3 py-2 border border-gray-300 rounded-md text-center font-semibold focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            name="budgetInput" min="0" max="5000" />
+
+        </div>
+        <div class="flex flex-col md:flex-row items-center gap-4 w-full">
+          <!-- Slider Input -->
+          <input type="range" id="budgetSlider" step="50" min="0" max="5000" [(ngModel)]="budget" name="budgetRange"
+            class="budget-slider" />
+        </div>
+
+        <!-- Range Labels -->
+        <div class="flex justify-between text-xs text-[var(--primary-600)]">
+          <span>€0</span>
+          <span>€2,500</span>
+          <span>€5,000</span>
+        </div>
+      </div>
+
+      <!-- Difficulty Selection -->
+      <div class="form-group mb-6 w-full">
+        <label class="text-[var(--primary-600)] font-semibold mb-2 block">Difficulty</label>
+        <div class="flex flex-row gap-4 justify-center py-4">
+
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="difficulty" [(ngModel)]="difficulty" value="LOW" class="hidden peer" />
+            <span class="px-4 py-2 border rounded-full font-medium transition
+              bg-gray-100 text-gray-800
+              hover:bg-[var(--primary-100)]
+              peer-checked:bg-[var(--primary-600)] peer-checked:text-white">
+              Low
+            </span>
+          </label>
+
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="difficulty" [(ngModel)]="difficulty" value="MEDIUM" class="hidden peer" />
+            <span class="px-4 py-2 border rounded-full font-medium transition
+              bg-gray-100 text-gray-800
+              hover:bg-[var(--primary-100)]
+              peer-checked:bg-[var(--primary-600)] peer-checked:text-white">
+              Medium
+            </span>
+          </label>
+
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="radio" name="difficulty" [(ngModel)]="difficulty" value="HIGH" class="hidden peer" />
+            <span class="px-4 py-2 border rounded-full font-medium transition
+              bg-gray-100 text-gray-800
+              hover:bg-[var(--primary-100)]
+              peer-checked:bg-[var(--primary-600)] peer-checked:text-white">
+              High
+            </span>
+          </label>
+
+        </div>
+      </div>
+
+
+
+
+      <!-- Company Website -->
+      <div class="form-group">
+        <label for="websiteInput" class="text-[var(--primary-600)] font-semibold">Company Website</label>
+        <div class="input-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="input-icon">
+            <path
+              d="M21.721 12.752a9.711 9.711 0 00-.945-5.003 12.754 12.754 0 01-4.339 2.708 18.991 18.991 0 01-.214 4.772 17.165 17.165 0 005.498-2.477zM14.634 15.55a17.324 17.324 0 00.332-4.647c-.952.227-1.945.347-2.966.347-1.021 0-2.014-.12-2.966-.347a17.515 17.515 0 00.332 4.647 17.385 17.385 0 005.268 0zM9.772 17.119a18.963 18.963 0 004.456 0A17.182 17.182 0 0112 21.724a17.18 17.18 0 01-2.228-4.605zM7.777 15.23a18.87 18.87 0 01-.214-4.774 12.753 12.753 0 01-4.34-2.708 9.711 9.711 0 00-.944 5.004 17.165 17.165 0 005.498 2.477zM21.356 14.752a9.765 9.765 0 01-7.478 6.817 18.64 18.64 0 001.988-4.718 18.627 18.627 0 005.49-2.098zM2.644 14.752c1.682.971 3.53 1.688 5.49 2.099a18.64 18.64 0 001.988 4.718 9.765 9.765 0 01-7.478-6.816zM13.878 2.43a9.755 9.755 0 016.116 3.986 11.267 11.267 0 01-3.746 2.504 18.63 18.63 0 00-2.37-6.49zM12 2.276a17.152 17.152 0 012.805 7.121c-.897.23-1.837.353-2.805.353-.968 0-1.908-.122-2.805-.353A17.151 17.151 0 0112 2.276zM10.122 2.43a18.629 18.629 0 00-2.37 6.49 11.266 11.266 0 01-3.746-2.504 9.754 9.754 0 016.116-3.985z" />
+          </svg>
+          <input required type="text" [(ngModel)]="link" name="link" class="form-input" #linkInput="ngModel"
+            id="websiteInput" placeholder="www.company.com" />
+        </div>
+        <div *ngIf="linkInput.invalid && (linkInput.dirty || linkInput.touched)" class="error-message">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="error-icon">
+            <path fill-rule="evenodd"
+              d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
+              clip-rule="evenodd" />
+          </svg>
+          Company website is required
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="form-group">
+        <label for="descriptionInput" class="text-[var(--primary-600)] font-semibold">Task Description</label>
+        <div class="textarea-wrapper">
+          <textarea required class="form-textarea" [(ngModel)]="description" name="description" #descInput="ngModel"
+            id="descriptionInput" rows="5" placeholder="Describe the task in detail..."></textarea>
+        </div>
+        <div *ngIf="descInput.invalid && (descInput.dirty || descInput.touched)" class="error-message">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="error-icon">
+            <path fill-rule="evenodd"
+              d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
+              clip-rule="evenodd" />
+          </svg>
+          Description is required
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" (click)="onTaskAbort()" class="btn-cancel">
+          Cancel
+        </button>
+        <button type="submit" (click)="onTaskCreation()" [disabled]="!taskForm.form.valid"
+          class="  flex gap-2 items-center bg-gradient-to-r from-[var(--primary-600)] to-[var(--secondary-600)] hover:from-[var(--primary-700)] hover:to-[var(--secondary-700)] text-white font-medium py-3 px-4 shadow-md "
+          [ngClass]="{ 'btn-disabled': !taskForm.form.valid }">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="btn-icon">
+            <path fill-rule="evenodd"
+              d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zM12.75 9a.75.75 0 00-1.5 0v2.25H9a.75.75 0 000 1.5h2.25V15a.75.75 0 001.5 0v-2.25H15a.75.75 0 000-1.5h-2.25V9z"
+              clip-rule="evenodd" />
+          </svg>
+          Create Task
+        </button>
+      </div>
+      <div *ngIf="errorMessage" class="mt-4 text-red-600 text-sm text-center">
+        {{ errorMessage }}
+      </div>
+    </form>
+  </div>
+</div>

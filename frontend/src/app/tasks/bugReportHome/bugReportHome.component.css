@@ -1,0 +1,256 @@
+header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.bug-report-list {
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.bug-report-row {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  margin-bottom: 24px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+  border: 1px solid #ececec;
+  cursor: pointer; /* Make the row clickable */
+}
+
+.bug-report-row:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+}
+
+.collapsed {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Ensure consistent spacing */
+  gap: 18px;
+  padding: 18px 28px;
+  font-size: 1.1em;
+  cursor: pointer;
+  background: #f7f7fa;
+  border-bottom: 1px solid #ececec;
+  position: relative;
+  z-index: 1;
+}
+
+.status-pill {
+  display: inline-block;
+  margin: 0 8px;
+  padding: 4px 18px;
+  border-radius: 999px;
+  font-size: 1em;
+  font-weight: 700;
+  color: #fff;
+  background: #43a047; /* Default green */
+  vertical-align: middle;
+  min-width: 90px;
+  text-align: center;
+  letter-spacing: 0.5px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  border: 2px solid #fff;
+  transition: background 0.2s;
+}
+
+.status-pill.APPROVED {
+  background: #43a047; /* Green for approved */
+}
+
+.status-pill.DECLINED {
+  background: #e53935; /* Red for declined */
+}
+
+.status-pill.PENDING {
+  background: #ffa726; /* Orange for pending */
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap; /* Allow buttons to wrap */
+}
+
+.expand-icon {
+  font-size: 1.2em;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.2s;
+  margin-left: auto; /* Push the icon to the far right */
+}
+.expand-icon:hover {
+  color: #000;
+}
+
+.report-text {
+  flex: 1 1 320px;
+  min-width: 320px;
+  max-width: 60%;
+  margin-right: 16px;
+}
+
+.report-text quill-editor {
+  height: 30vh;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.carousel {
+  flex: 1 1 220px;
+  min-width: 220px;
+  max-width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 10px 0 0 0;
+}
+
+.carousel img {
+  height: 25vh;
+  max-width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  object-fit: contain;
+  background: #fafbfc;
+  margin-bottom: 0;
+  display: block;
+}
+
+.carousel-btn {
+  background-color: #f0f0f0;
+  border: none;
+  padding: 10px 15px; /* Increased padding for better visibility */
+  cursor: pointer;
+  border-radius: 4px;
+  z-index: 1;
+}
+
+.carousel-btn.left,
+.carousel-btn.right {
+  position: static; /* Remove absolute positioning */
+  margin: 0 5px; /* Add spacing between buttons */
+}
+
+.carousel-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px; /* Add spacing below the carousel */
+  width: 100%; /* Ensure buttons stay within the carousel width */
+  box-sizing: border-box; /* Include padding and border in the element's total width */
+}
+
+.approve-btn {
+  background: #43a047;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  font-weight: 600;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 1px 4px rgba(67,160,71,0.10);
+}
+.approve-btn:hover {
+  background: #388e3c;
+}
+
+.decline-btn {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 16px;
+  font-weight: 600;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 1px 4px rgba(229,57,53,0.10);
+}
+.decline-btn:hover {
+  background: #b71c1c;
+}
+
+.right-section {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap; /* Ensure wrapping on smaller screens */
+}
+
+.expanded {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px;
+  background: #f9f9f9;
+  border-top: 1px solid #ececec;
+}
+
+.report-text {
+  flex: 1 1 60%;
+  min-width: 300px;
+  max-width: 100%;
+  margin-right: 16px;
+}
+
+.carousel {
+  flex: 1 1 35%;
+  min-width: 200px;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 768px) {
+  .bug-report-row {
+    padding: 10px;
+  }
+
+  .collapsed {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .status-pill {
+    margin: 4px 0;
+  }
+
+  .right-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .expanded {
+    padding: 12px;
+  }
+
+  .report-text {
+    margin-right: 0;
+  }
+
+  .carousel {
+    align-items: stretch;
+  }
+}

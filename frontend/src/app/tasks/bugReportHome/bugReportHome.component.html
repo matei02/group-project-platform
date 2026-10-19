@@ -1,0 +1,75 @@
+<div class="p-8 max-w-7xl mx-auto font-sans">
+  <!-- Header Section -->
+  <div class="mb-8 text-center">
+    <p class="text-4xl font-bold text-[var(--primary-700)] mb-2">
+      Bug Reports
+    </p>
+    <p class="text-[var(--secondary-700)] max-w-[600px] mx-auto">
+      View and explore all submitted bug reports.
+    </p>
+  </div>
+
+  <!-- Bug Report List -->
+  <div class="bug-report-list">
+    <div *ngFor="let report of bugReports; let i = index" class="bug-report-row">
+      <div class="collapsed" (click)="toggleExpand(i)">
+        <div class="left-section">
+          <span>Bug Report ID: {{ report.bugReportId }}</span>
+          <span class="status-pill" [ngClass]="report.status">{{ report.status | titlecase }}</span>
+          <span>Task ID: {{ report.taskId }}</span>
+        </div>
+        <div class="right-section">
+          <div class="action-buttons" *ngIf="report.status === 'PENDING'">
+            <button class="approve-btn"
+              (click)="approveReport(report.bugReportId, i); $event.stopPropagation()">Approve</button>
+            <button class="decline-btn"
+              (click)="declineReport(report.bugReportId, i); $event.stopPropagation()">Decline</button>
+          </div>
+          <span class="expand-icon">{{ expandedIndex === i ? '▲' : '▼' }}</span>
+        </div>
+      </div>
+
+      <div *ngIf="expandedIndex === i" class="expanded">
+        <div class="report-text">
+          <quill-editor [readOnly]="true" [modules]="quillModules" [(ngModel)]="report.reportText"></quill-editor>
+        </div>
+
+        <div class="carousel mt-4">
+          <ng-container *ngIf="report.mediaFiles.length > 0; else noFiles">
+            <img [src]="'data:image/png;base64,' + report.mediaFiles[report.currentImageIndex]" alt="Bug Report Media"
+              (click)="$event.stopPropagation()" />
+            <div class="carousel-buttons">
+              <button class="carousel-btn left" (click)="prevImage(i); $event.stopPropagation()">◀</button>
+              <button class="carousel-btn right" (click)="nextImage(i); $event.stopPropagation()">▶</button>
+            </div>
+          </ng-container>
+          <ng-template #noFiles>
+            <p class="text-sm text-gray-500 italic">No files uploaded.</p>
+          </ng-template>
+        </div>
+
+
+        <div class="video-wrapper mt-4">
+          <video *ngIf="report.screenRecordingUrl" controls class="w-full rounded-lg shadow-md"
+            (click)="$event.stopPropagation()">
+            <source [src]="report.screenRecordingUrl" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="toastVisible"
+      [ngClass]="{'bg-green-600': toastType === 'success', 'bg-red-600': toastType === 'error', 'bg-blue-600': toastType === 'info'}"
+      class="fixed top-4 right-4 px-6 py-3 rounded-lg text-white shadow-lg z-[9999] flex items-center gap-3 animate-[fadeIn_0.3s_ease-out_forwards]">
+      <div class="flex-1">{{ toastMessage }}</div>
+      <button (click)="toastVisible = false" class="ml-2 text-white hover:text-gray-200 focus:outline-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd"
+            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+            clip-rule="evenodd" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

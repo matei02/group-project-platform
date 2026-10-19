@@ -1,0 +1,67 @@
+stages:
+  - build
+  - dockerize
+  - deploy
+
+variables:
+  DOCKER_BUILDKIT: 0
+  IMAGE_NAME: "$ACR_NAME.azurecr.io/groupproject-backend"
+  IMAGE_TAG: "$IMAGE_NAME:latest"
+
+before_script:
+  - echo "=== Updating VM ==="
+  - sudo apt update -y
+  - echo "=== Upgrading VM ==="
+  - sudo apt upgrade -y
+
+# STEP 1: Build Spring Boot JAR
+build:
+  stage: build
+  script:
+    - echo "=== Building Spring Boot Application ==="
+    - cd groupproject_backend
+    - ./gradlew bootJar --no-daemon
+  artifacts:
+    paths:
+      - groupproject_backend/build/libs/groupproject_backend-0.0.1-SNAPSHOT.jar
+
+# STEP 2: Build and Push Docker Image to ACR
+dockerize:
+  stage: dockerize
+  script:
+    - echo "=== Logging into Azure ==="
+    - az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+    - az account set --subscription $AZURE_SUBSCRIPTION_ID
+
+    - echo "=== Retrieving ACR Admin Credentials ==="
+    - ACR_USERNAME=$(az acr credential show --name $ACR_NAME --query "username" -o tsv)
+    - ACR_PASSWORD=$(az acr credential show --name $ACR_NAME --query "passwords[0].value" -o tsv)
+    - ACR_LOGIN_SERVER=$(az acr show --name $ACR_NAME --query "loginServer" -o tsv)
+
+    - echo "=== Logging into Azure Container Registry ==="
+    - echo "$ACR_PASSWORD" | sudo docker login $ACR_LOGIN_SERVER -u $ACR_USERNAME --password-stdin
+
+    - echo "=== Building Docker Image ==="
+    - sudo docker build -t $IMAGE_TAG -f Dockerfile .
+
+    - echo "=== Pushing Docker Image to ACR ==="
+    - sudo docker push $IMAGE_TAG
+  only:
+    - main
+
+# STEP 3: Deploy Container to Azure App Service
+deploy:
+  stage: deploy
+  image: mcr.microsoft.com/azure-cli
+  script:
+    - echo "=== Authenticating with Azure ==="
+    - az login --service-principal --username $AZURE_CLIENT_ID --password $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+    - az account set --subscription $AZURE_SUBSCRIPTION_ID
+    - echo "=== Retrieving ACR Admin Credentials ==="
+    - ACR_USERNAME=$(az acr credential show --name $ACR_NAME --query "username" -o tsv)
+    - ACR_PASSWORD=$(az acr credential show --name $ACR_NAME --query "passwords[0].value" -o tsv)
+    - echo "=== Updating App Service with new image ==="
+    - az webapp config container set --container-image-name $IMAGE_TAG --container-registry-url https://$ACR_NAME.azurecr.io --container-registry-user $ACR_USERNAME --container-registry-password $ACR_PASSWORD --name $AZURE_APP_NAME --resource-group $AZURE_RESOURCE_GROUP
+  only:
+    - main
+

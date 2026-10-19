@@ -1,0 +1,79 @@
+<div class="h-[calc(100vh-64px)] bg-white flex flex-col items-center justify-center p-4">
+  <div class="w-full max-w-md bg-white rounded-2xl">
+    <div class="mb-8 text-center">
+      <p class="text-4xl font-bold text-[var(--text-700)] mb-2">Make a Payment</p>
+      <p class="text-[var(--secondary-300)]">Secure payment processing with Stripe</p>
+    </div>
+    
+    <form (ngSubmit)="sendPayment()" class="space-y-6">
+      <div class="space-y-2">
+        <label for="amount" class="block text-sm font-medium text-[var(--text-700)]">Payment Amount</label>
+        <div class="relative mt-1">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <span class="text-[var(--text-500)]">€</span>
+          </div>
+          <input 
+            type="number" 
+            id="amount" 
+            [(ngModel)]="amount" 
+            name="amount"
+            min="1"
+            step="0.01"
+            (input)="limitDecimals($event)"
+            class="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-xl shadow-sm text-[var(--text-700)] focus:outline-[var(--primary-200)] " 
+            required>
+        </div>
+      </div>
+      
+      <div class="space-y-2">
+        <label for="currency" class="block text-sm font-medium text-[var(--text-700)]">Currency</label>
+        <select 
+          id="currency" 
+          [(ngModel)]="currency" 
+          name="currency"
+          class="w-full px-3 py-3 border border-[var(--primary-300)] rounded-xl shadow-sm text-[var(--text-700)] focus:outline-[var(--primary-200)]">
+          <option value="usd">USD - US Dollar</option>
+          <option value="eur">EUR - Euro</option>
+          <option value="gbp">GBP - British Pound</option>
+          <option value="cad">CAD - Canadian Dollar</option>
+          <option value="aud">AUD - Australian Dollar</option>
+        </select>
+
+      </div>
+      
+      <div class="space-y-2">
+        <label for="card-element" class="block text-sm font-medium text-[var(--text-700)]">Card Details</label>
+        <div 
+          id="card-element" 
+          class="p-3 border border-gray-300 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all min-h-[40px]">
+        </div>
+        <div id="card-errors" class="text-red-500 text-sm mt-1" role="alert"></div>
+      </div>
+      
+      <button 
+        type="submit" 
+        class="w-full rounded-xl  bg-gradient-to-r from-[var(--primary-600)] to-[var(--secondary-600)] hover:from-[var(--primary-700)] hover:to-[var(--secondary-700)] text-white font-medium py-3 px-4 shadow-md ">
+        <div class="flex items-center justify-center">
+          <span>Pay Now</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+          </svg>
+        </div>
+      </button>
+    </form>
+    
+    <div class="mt-8 pt-6 border-t border-gray-200">
+      <div class="flex items-center justify-center text-xs text-gray-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+        </svg>
+        <span>Secure payment processing by Stripe</span>
+      </div>
+      <div class="flex justify-center mt-3 space-x-3">
+        <img src="https://www.freepnglogos.com/uploads/visa-inc-png-18.png" class="h-10" alt="visa">
+        <img src="https://logos-marcas.com/wp-content/uploads/2020/09/Mastercard-Simbolo.png" class="h-10" alt="mastercard">
+        <img src="https://logos-world.net/wp-content/uploads/2020/11/American-Express-Logo.png" class="h-10" alt="amex">
+      </div>
+    </div>
+  </div>
+</div>
