@@ -73,6 +73,8 @@ Team of seven. My parts, based on the original repositories (176 backend and 142
 
 My teammates built the other parts, including payments (Stripe and PayPal), the wallet, the leaderboard, the profile and the login.
 
+**About this repository:** the code is our team's and is shown as it was in June 2025. I packaged it for GitHub (this README, screenshots, demo GIF, removing the client's name and secrets) with help from an AI assistant, which is why the single commit lists Claude as co-author.
+
 ## Status and limitations
 
 - Course project for a client; it was not released to real users as far as I know.
