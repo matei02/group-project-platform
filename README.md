@@ -4,7 +4,7 @@ A web platform where companies post testing tasks with a budget, testers pick a 
 
 ![Demo: task overview, an admin approves a pending task, the task becomes available, task creation form and the virtual wallet](docs/demo.gif)
 
-> Recorded on my machine with the backend (in-memory H2 database with seed data) and the frontend running unchanged.
+> Backend (in-memory H2 database with seed data) and frontend running locally, code unchanged.
 
 ## The problem
 
@@ -80,7 +80,7 @@ My teammates built the other parts, including payments (Stripe and PayPal), the 
 
 - Semester group project; it was not released to real users.
 - **Security is not finished:** every endpoint is open (`anyRequest().permitAll()`), the login page only navigates to the tasks page (no real authentication), and Keycloak is only partly started in the frontend.
-- The backend test sources do not compile against the current code (`PaymentServiceImplTest` calls an older `withdraw` signature), so `./gradlew test` fails; I left them as they are.
+- The backend test sources do not compile against the current code (`PaymentServiceImplTest` calls an older `withdraw` signature), so `./gradlew test` fails.
 - Approving a bug report does not pay the tester yet (the reward service is not wired in), and the leaderboard is empty with the seed data.
 - Screen recordings are stored in the database as byte arrays.
 
