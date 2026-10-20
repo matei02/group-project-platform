@@ -1,0 +1,3 @@
+# GitHub language stats: Angular HTML templates are not counted, so the main language
+# shown is the application code (Java backend, TypeScript frontend).
+*.html linguist-detectable=false
