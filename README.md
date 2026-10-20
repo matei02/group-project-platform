@@ -1,14 +1,14 @@
 # BugSlayer: crowdtesting and rewards platform (team project)
 
-A web platform where companies post testing tasks with a budget, testers pick a task and report the bugs they find (with a screen recording), admins approve tasks and reports, and testers are meant to be rewarded for approved reports. Built by a team of seven students for an external client during my sixth semester (Mar to Jun 2025). Spring Boot backend, Angular frontend, GitLab CI/CD to Azure.
+A web platform where companies post testing tasks with a budget, testers pick a task and report the bugs they find (with a screen recording), admins approve tasks and reports, and testers are meant to be rewarded for approved reports. Built by a team of seven students as our sixth-semester group project (Mar to Jun 2025). Spring Boot backend, Angular frontend, GitLab CI/CD to Azure.
 
 ![Demo: task overview, an admin approves a pending task, the task becomes available, task creation form and the virtual wallet](docs/demo.gif)
 
-> Recorded on my machine with the backend (in-memory H2 database with seed data) and the frontend running unchanged. The client's name has been removed from the code and this README.
+> Recorded on my machine with the backend (in-memory H2 database with seed data) and the frontend running unchanged.
 
 ## The problem
 
-The client wanted a platform that connects companies who need their websites tested with people who are willing to test them for a reward. Companies should be able to fund tasks, admins should keep quality under control, and testers should be paid out for valid bug reports.
+The idea: a platform that connects companies who need their websites tested with people who are willing to test them for a reward. Companies should be able to fund tasks, admins should keep quality under control, and testers should be paid out for valid bug reports.
 
 ## What it does
 
@@ -64,21 +64,22 @@ Payments need your own Stripe and PayPal sandbox keys (`STRIPE_SECRET_KEY` and t
 
 ## My contribution
 
-Team of seven. My parts, based on the original repositories (176 backend and 142 frontend commits; 89 and 42 of them mine, but many of my backend commits are small pipeline iterations, so the count says little):
-- **CI/CD:** the GitLab pipelines and Dockerfiles for backend and frontend: build, Docker image, push to Azure Container Registry, deploy to Azure App Service, only from main.
-- **Frontend setup:** created the Angular project the team built on.
+Team of seven. My parts:
 - **Tasks:** task creation (frontend and backend), task update, and the admin approval page (accept/decline) with its backend endpoints.
 - **Bug reports:** the backend implementation (multipart upload with screen recording), the approve/decline flow, and the bug report pages in the frontend.
-- Fixed the CORS setup between the deployed frontend and backend; wrote the frontend README.
+- **Frontend setup:** created the Angular project the team built on.
+- **CI/CD:** the GitLab pipelines and Dockerfiles for backend and frontend: build, Docker image, push to Azure Container Registry, deploy to Azure App Service, only from main. I also fixed the CORS setup between the deployed frontend and backend.
+
+In the original repositories I made 89 of the 176 backend commits and 42 of the 142 frontend commits. Many of the backend ones are small pipeline changes: it was my first deployment to Azure, and I set it up step by step while building the features above and keeping up with what the team needed.
 
 My teammates built the other parts, including payments (Stripe and PayPal), the wallet, the leaderboard, the profile and the login.
 
-**About this repository:** the code is our team's and is shown as it was in June 2025. I packaged it for GitHub (this README, screenshots, demo GIF, removing the client's name and secrets) with help from an AI assistant, which is why the single commit lists Claude as co-author.
+**About this repository:** the code is our team's and is shown as it was in June 2025. I packaged it for GitHub (this README, screenshots, demo GIF, removing secrets and private details) with help from an AI assistant, which is why the single commit lists Claude as co-author.
 
 ## Status and limitations
 
-- Course project for a client; it was not released to real users as far as I know.
-- **Security is not finished:** every endpoint is open (`anyRequest().permitAll()`), the login page only navigates to the tasks page (no real authentication), and Keycloak (requested by the client) is only partly started in the frontend.
+- Semester group project; it was not released to real users.
+- **Security is not finished:** every endpoint is open (`anyRequest().permitAll()`), the login page only navigates to the tasks page (no real authentication), and Keycloak is only partly started in the frontend.
 - The backend test sources do not compile against the current code (`PaymentServiceImplTest` calls an older `withdraw` signature), so `./gradlew test` fails; I left them as they are.
 - Approving a bug report does not pay the tester yet (the reward service is not wired in), and the leaderboard is empty with the seed data.
 - Screen recordings are stored in the database as byte arrays.
