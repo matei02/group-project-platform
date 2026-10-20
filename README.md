@@ -74,7 +74,7 @@ In the original repositories I made 89 of the 176 backend commits and 42 of the 
 
 My teammates built the other parts, including payments (Stripe and PayPal), the wallet, the leaderboard, the profile and the login.
 
-**About this repository:** the code is our team's and is shown as it was in June 2025. I packaged it for GitHub (this README, screenshots, demo GIF, removing secrets and private details) with help from an AI assistant, which is why the single commit lists Claude as co-author.
+**About this repository:** the code is our team's and has not been changed since June 2025. I packaged it for GitHub (this README, screenshots, demo GIF, removing secrets and private details) with help from an AI assistant, which is why the single commit lists Claude as co-author.
 
 ## Status and limitations
 
@@ -89,4 +89,4 @@ My teammates built the other parts, including payments (Stripe and PayPal), the 
 - Finish authentication and authorization (Keycloak / OAuth2 resource server, roles for company, tester and admin) and lock every endpoint.
 - Store recordings and files in object storage and keep only references in the database.
 - Repair and extend the tests (unit plus integration for the approval and payout flows) and run them in the pipeline before deploying.
-- Make payouts idempotent and auditable (ledger table, webhooks from Stripe/PayPal instead of trusting client calls).
+- Make payouts idempotent and auditable (ledger table, webhooks from Stripe/PayPal instead of trusting calls from the browser).
